@@ -1,5 +1,5 @@
-class AddPostStatusToPosts < ActiveRecord::Migration
+class AddPostStatusToPosts < ActiveRecord::Migration[7.1]
   def change
-    add_column :posts, :post_status, :boolean
+    add_column :posts, :status, :string
   end
 end
