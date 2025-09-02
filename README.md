@@ -45,7 +45,7 @@ We know we can build out a route with dynamic segments, so our first instinct mi
   get 'authors/:id/posts/:post_id'
 ```
 
-After adding those routes, let's load up our blog with `rails s` (don't forget to `rake db:seed`) and check it out by browsing to `/authors/1/posts`.
+After adding those routes, let's load up our blog with `bin/rails s` (don't forget to `bin/rails db:seed`) and check it out by browsing to `/authors/1/posts`.
 
 Oops. Error. Gotta tell those routes explicitly which controller actions will handle them. Okay, let's make it look more like this:
 
@@ -80,7 +80,7 @@ And to handle our new filtering routes, we'll need to make some changes in our `
 
 If we go back to our blog and try to browse to `/authors/1/posts`, we should see the posts for that author. And then if we try `/authors/1/posts/1`, we should see that post.
 
-**Note:** If your IDs are different and you are having trouble with the URLs, try running `rake db:reset` to reset your IDs to the defaults in the seed file.
+**Note:** If your IDs are different and you are having trouble with the URLs, try running `bin/rails db:reset` to reset your IDs to the defaults in the seed file.
 
 We did it! We have much nicer URLs now. Are we done? Of course not.
 
@@ -178,7 +178,7 @@ We know the URL is `/authors/:author_id/posts`, so we can combine the two conven
 
 It stands to reason that a single post for an author would combine the conventions for the single author path and single post path, leaving us with `author_post_path(author_id, post_id)`.
 
-Once you become accustomed to breaking it down in that way, it's pretty straightforward to know what our URL helpers will be for a nested route. However, if you're not sure, or if you just want to double-check, you can use `rake routes` on the command line to get a printout of all your named routes, like this:
+Once you become accustomed to breaking it down in that way, it's pretty straightforward to know what our URL helpers will be for a nested route. However, if you're not sure, or if you just want to double-check, you can use `bin/rails routes` on the command line to get a printout of all your named routes, like this:
 
 ```bash
       Prefix Verb  URI Pattern                             Controller#Action
@@ -200,7 +200,7 @@ You can also view this in your browser anytime you type in an incorrect route or
 
 If you add `_path` or `_url` to any of the names under "Prefix", you'll have the helper for that route.
 
-**Advanced:** Using `rake routes` can be a lot easier than browsing the `routes.rb` file once a project gets to a certain size, but the output might be overwhelming. Remember that you can `grep` the output of any command to search for what you want. So in the example above, if you just wanted to search for routes related to authors, you could type `rake routes | grep authors` to get a filtered list.
+**Advanced:** Using `bin/rails routes` can be a lot easier than browsing the `routes.rb` file once a project gets to a certain size, but the output might be overwhelming. Remember that you can `grep` the output of any command to search for what you want. So in the example above, if you just wanted to search for routes related to authors, you could type `bin/rails routes | grep authors` to get a filtered list.
 
 Let's make it easy for our readers to look at the posts for each of our authors using these helpers.
 
@@ -212,13 +212,14 @@ In `posts/index.html.erb`, we already show the author's name, so let's add a lin
   ...
 
   <h2><%= post.title %></h2>
-  
+
   <!-- change the name to a link -->
   <h3>by: <%= link_to post.author.name, author_posts_path(post.author) %></h3>
   <p><%= post.description %></p>
 
   ...
 ```
+
 Let's reload `/posts` and click on an author name. We should be taken to `/authors/id/posts`.
 
 Great! Now our URLs properly reflect the relationship of our resources and read almost like an English sentence: `authors/1/posts` = "author number one's posts."
@@ -265,4 +266,3 @@ In addition, the reason to put the ID of the resource in the URL is so that we h
 Nesting resources is a powerful tool that helps you keep your routes neat and tidy and is better than dynamic route segments for representing parent/child relationships in your system.
 
 However, as a general rule, you should only nest resources one level deep and ensure that you are considering Separation of Concerns in your routing.
-
